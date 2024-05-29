@@ -1,0 +1,369 @@
+Notes:
+	> Design patterns: https://refactoring.guru/design-patterns
+	> LLD questions w/ explanation: https://github.com/tssovi/grokking-the-object-oriented-design-interview
+	> LLD difficulty wise sorted questions: https://github.com/ashishps1/awesome-system-design-resources?tab=readme-ov-file
+
+> Desing internview approach:
+	# Understand the problem by making a rough flow in perspective of user (actor), be as simple as possible and collect all the requirements.
+	# While creating the rough flow identify objects which are involved and the number of objects may grow as we solve the problem.
+	# For the identified objects define the required fields in them and their behaviours.
+	# Define the scope for the system, and then make the system extensible only if possible.
+	# Draw a activity/sequence diagram for the system while thinking out loud.
+	# Try to understand in what interviewer is more interested whether system discussion or coding. E.g. for smaller problems like tic-tac-toe or snake ladder interviewers usually more interested in coding and for bigger problems more in system discussion.
+	# Pratice on whiteboard, or ask recruiter beforehand regarding the platform on which interview will be carried out
+
+> LLD using OOD principles
+	# Relationships bw classes:
+		-> Association: No whole-part relationship, but objects interact for message/information sharing. Represented by just connecting line (for bidirectional) / simple arrow  (for unidirectional) Eg. Parking spot and vehicle.
+		-> Has-a (aggregation): Here part object may exist independently. Represented by unfilled diamond. Eg. Course and Department, as a course can be part of many or none department. 	Which means department doesn't entirely control the existence of Course.
+		-> Part-of (composition): Whole strictly controls the part object and later cann't exist independently. Represented by filled diamond. Eg. Car and Engine
+		-> Is-a (inheritance): Represented by arrows (unfilled head), and for interfaces dashed arrow with unfilled head.
+		-> Dependency: When a class uses an interface for some functionality. It is a temporary relationship. Represented by dashed arrow.
+		
+	# Navigability:
+		-> Unidirectional (One way): In this type of association only one class can access / see the other class objects through composition.
+		-> Bidirectional (Two way): Both class can access / see each other's object.
+		
+	# OOPs : It is a programming model based on classes and objects.
+		-> Objects: Real world entities having state(s) and behaviour(s).
+		-> Class: Blue print for creating an object.
+		-> Methods: Functions that represents the behaviour of the object.
+		-> OOPs core concepts:
+			$ Encapsulation: It is a data hiding technique which is used for hiding (direct access) data from user.
+			$ Abstraction: It is also a hiding technique which is used for hiding the implementation details from the user.
+			$ Inheritence: DRY. types and access specified inheritance. 
+				> Single inheritance
+				> Multi-level inheritance
+				> Heirarchical inheritance
+				> Hybrid inheritance
+				> Multiple inheritance (not supported in java b/w classes)
+			$ Polymorphism: "many forms"
+				> Compile time: method / operator overloading
+				> Runtime : method overriding
+			
+	# Object oriented analysis and design (OOAD)
+		-> UML (Unified Model Language)
+			$ Fundamental elements: Things, Relationships & Diagram.
+			$ Things: Representation of the entities like class, object, state etc. (check online for more details).
+			$ Diagrams: 
+				* Structural diagram: It is a static diagram eg. class diagram.
+				* Behavioural diagram: It illustrates the dynamic behaviour of the system eg. use-case diagram, activity diagram and sequence diagram.
+					~ Use-case diagram: It is usuallly use to depict the high level architecture of the system. It's components are Actors, Usecase, Package and Note.
+					
+	# SOLID principles:
+		S -> Single reponsibility principle [SRP]
+			$ Every class should have single reason to change (a class or component should only have one functionality)
+		O -> Open closed principle [OCP]
+			$ Open for extension while closed for modification.
+			$ It doesn't just mean inheritance. Inheritance is one of a ocp technique. Check for polymorphic OCP.
+			$ Core code should be protected from new code. It reduces the testing efforts as there would be less or none side effect changes on existing code.
+		L -> Liskov substitution principle [LSP] (Object of superclass should be replacble w/ the subclass objects without altering the program's correctness)
+		I -> Interface segregation principle [ISP] (Fine grained client specific interfaces, client should not be forced to implement functionality which they don't use i.e. interfaces should be of small size)
+		D -> Dependency inversion principle [DIP] (High level modules (client code) should not dependent on implementation of the low level modules, rather they should depend on abstraction)
+		
+	# OO principles:
+		-> Encapsulate what varies.
+		-> Favour composition over inheritance.
+		-> Program to interface not the implementation. Client (the code using desing pattern) should be independent of a particual concrete implementation.
+		-> Strive for loosely coupled designe between the object which intracts.
+		-> Classes should be open for extension but closed for modification.
+		-> Dependency inversion principle: Depend on abstractions, do not depend upon concrete classes.
+		-> The principle of least knowledge: talk only to your immediate friends.
+		-> Hollywood principle: Don't call us, we will call you. (It is used to avoid "dependency rot". In other words, High-level systems tells low-level systems that, "don't call us, we will call you")
+		-> A class should only have one reason to change.
+		
+	# Design pattern:
+		-> Stratey Pattern: (Duck example)
+			$ It is a behavioral pattern.
+			
+			$ Identify the aspects of your application that vary, separate them from what stays the same. Take what varies and “encapsulate” it so it won’t affect the rest of your code. The result? Fewer unintended consequences from code changes and more flexibility in your systems!
+			
+			$ Program to an interface, not an implementation. (This means your code interacts with objects through their interfaces, not their specific implementations. Conversely, if you directly interact with the specific implementation details of an object in your code, it becomes tied to that particular implementation. Duck class FlyableBehaviour and QuackableBehaviour example uses this point where instead of having fly implementation in the specific Duck class, Duck abstract class has reference to the these behaviour interfaces and at runtime specific behaviour is attached to the specific duck class. This makes the code open for extension and while extension no side effect changes will be required and we can reuse these behaviour in different specific Duck subclasses.) 
+			
+			$ Previous point indirectly means composition is more flexible compare to inheritance. So use composition over inheritance.
+			
+			$ Try to find if in the inheritance hierarchy subclasses need to orride methods which is common/duplicate among some subclasses then in that case strategy pattern can be applied.
+			
+		-> Observer pattern: (Weather system example)
+			$ It is a behavioral pattern.
+			
+			$ This pattern is heavily used in JDK.
+			
+			$ The observer pattern defines a one-to-many dependencies and when an object state changes all its dependents are notified and updated automatically.
+			
+			$ Publisher (subject) + Subscriber (observer)  = Observer design pattern.
+		
+			$ It handles the problem, when the state of a particular object changes, all its subscribers should be informed. New subscribers can subscribe or existing can unscribe the object at runtime. Here curx is this runtime subscription / unsubscription.
+			
+			$ Observer design pattern provides an object design where subject and observer are loosely coupled.
+				-> The only thing subject knows about an observer is that it implements a certain interface (observer).
+				-> We add the new observer at runtime.
+				-> We never need to modify the subject to add the new type of observer.
+				
+			$ Strive for loose coupling between the objects that interact.
+			
+			$ Java inbuilt observer and observable interfaces are deprecated now, check the alternatives. Following are issues w/ inbuilt utility
+				-> Observable is a class if client class extends it then no other class can be extended by client class.
+				
+			
+		-> Decorator pattern: (Coffee w/ different condiments)
+			$ It is a structural pattern and based on O/C principle.
+			
+			$ Applying O/C principles everywhere in the code may be unneccsary, waste of effert and can make code complex to understand. This principle should be applied to the parts which are likely to change in future. This u will get to know by some experience in OO design and in the domain u r working on.
+			
+			$ Decorator has the same supertype as of the object it decorates. Decorator adds its behaviour before or after it delegates the job to the supertype.
+			
+			$ Here Decorator inherits the component to get the type matching but not to inherit the behaviour.
+			
+			$ Decorator pattern attaches additional responsibilities to an object dynamically. It provides the flexible alternative to subclassing for extending functionality.
+			
+			$ Real world decorator: Java I/O
+			
+			$ One downside of using decorator design pattern is it results in large number of small classes which make it overwhelming to someone new to this design.
+			
+		-> Factory design pattern: (Pizza example | Factory method: regional pizzas, Abstract Factory: Ingredients specific to regional pizza)
+			$ It is a creational pattern.
+			
+			$ It is based on O/C principle and applies the principle that states "encapsulate which varies".
+			
+			$ Factories handle the details of the object creation.
+			
+			$ SimpleFactory is not a desing pattern, rather it is a programming idiom.
+			
+			$ In design patterns, the phrase “implement an interface” does NOT always mean “write a class that implements a Java interface, by using the “implements” keyword in the class declaration”. General use of the phrase is, a concrete class implementing a method from a supertype (which could be a class OR interface) is still considered to be “implementing the interface” of that supertype.
+			
+			$ To make the factory pattern more adaptable to change we can make the factory method as an abstract method and let each concrete subclass implements its own style of factory. In this way we have separated the client code (constant part) from the code which vaires.
+			
+			$ Factory method Pattern: define an interface for creating objects, but lets subclasses decide which class to instantiate. Factory method defer the instantiation to subclasses.
+			
+			$ Dependency inversion principle: Depend on abstractions, do not depend upon concrete classes. Below are some guidelines (not hard and fast rules as it is impossible to follow all of them everytime. But if you are voilating a particular guideline then you should have a strong reason for that.)
+				~ No variable should hold a reference to a concrete class. (don't use 'new' instead use factory)
+				~ No class should derive from a concrete class. (If you derive from a concrete class then you start depending on its implementation, rather you should strive to derive from abstration.)
+				~ No method should override an implementation of any of its base class. (If you override an implemented method, then your base class wasn’t really an abstraction to start with. Those methods implemented in the base class are meant to be shared by all your subclasses.)
+				
+			$ Problem: Different factories changing the ingredents while pizza(Object) creation. So solution wolud be that we need to deliver the ingredients to them. Here we use the abstract factory pattern.
+			
+			$ Abstract factory pattern: Here we create an interface for creation of a family of products specific to a particular scenario like for a parituclar region, operating system etc. And further we can use these ingredents to create an super object for a parituclar scenario (like in case of pizza example we created an ingredents factory which has region specific implementations and using these factories we are able to create a parituclar pizza specifically for a region eg NY style cheeze pizza). Formal definition, The Abstract Factory Pattern provides an interface for creating families of related or dependent objects without specifying their concrete classes.
+			
+			$ Abstract factory uses composition for object creation while Factory method uses inheritance for object creation.
+			
+		-> Singleton Pattern: 
+			$ This pattern gives us the global point of contact w/o the downside of global vairable (eg. global vairables are usually instantiated at the beginning of the program and it might not be efficient for resource intensive object. We hardly have control over that etc)
+			
+			$ Singleton Pattern ensures that a class has only on instance, and provides a global point of access to it.
+			
+			$ Usually singleton object is created in lazy manner i.e. whenever 1st requirement comes then only it gets created, which is very especial for resource intensive objects.
+			
+			$ Singleton implementation in multi-threaded environment.
+				~ Synchronized getInstance method (not efficient if getInstance is called frequently)
+				~ Early initialization (not efficient if singleton object is resource intensive and might not be required throughout the program execution)
+				~ Double check locking : check refactoring guru's implementation and also check (https://en.wikipedia.org/wiki/Double-checked_locking#Usage_in_Java)
+				
+		-> Command Pattern: (Remote control example)
+			$ Command pattern allows you to decouple the requester of an action from the object that actually perfoms the action.
+			
+			$ Command pattern encapsulates the request as an object which let you parameterize other objects with different requests, queues or log requests, and support undo operation.
+			
+			$ Check the undo and macro implementation.
+			
+			$ Important implementor of the command pattern: 
+				1. Queuing different jobs (scheduler, thread pool executors etc)
+				2. Logging requests: It involves logging each command into the persistent disk once it is applied to the object so that if any failure happens applied commands can be reapplied and in order. This is useful when dealing with large dataset application, because storing copy after every command will not be an efficient approach. So, in that case commands can be stored in the disk and if failure happens and object is reloaded these commands can be reapplied.
+			
+		-> Null object Pattern: (Bonus desing pattern)
+			$ It provides a clean and predictable way to handle the absence of objects in your code.
+			
+		-> Adapter Pattern: (Duck and Turkey example)
+			$ The adapter pattern converts the interface of a class into another interface that client expects. Adapter lets classes work together that otherwise couldn't because of incompatible interfaces.
+		
+			$ Here the client makes a request to the adapter by calling a method of the target interface. The adapter translates the request to adaptee by calling one or more methods of adaptee. The client receives the result and never knows there is an adapter doing the translation.
+			
+			$ There are two forms of the Adapter pattern: Object Adapter (composition) and Class Adapter (inheritance).
+			
+		-> Facade Pattern: (Home theatre example)
+			$ Its a variation of the adapter pattern. It is generally implemented to provide a simplified interface of a complex subsystem (eg Home theatre example).
+			
+			$ The difference bw the Adapter and Facade is not in terms of the number of classes they wrap. Its in their intent. Adapter's intent is to changes the interface so that it matches to the one client is expecting. And Facade's intent is to provide the simplied interface of a complex subsystem.
+			
+			$ Facade not only simplifies the system but also decouples the client from a subsystem component.
+			
+			# Facade provides a unified interface for a set of interfaces of a subsystem. Facade provides a higher level interface that makes the subsystem easier to use.
+		
+		-> Template Pattern: (Caffeine Beverage example (Coffee and Tea are concrete subclasses))
+			$ It provides the steps of an algorithm and delegates some steps implementation to subclasses. It give the great capability of code reuse.
+			
+			$ Here template method (method which contains the alogrithm steps) is kept final so that no subclass can change the algorithm.
+			
+			$ Hooked methods in template: These are the methods called in template flow and defined in abstract class w/ empty or default implementation. Subcalsses has the freedom to overide these methods behaviours.
+			
+			$ Hollywood principle is apparently to Template pattern, as here abstract class (High-level component) tells subclasses (Low-level components) that "don't call us, we will call you"
+			
+		-> Iterator Pattern: (Menu/waitress example)
+			$ It provides a way to access the element of an aggregator sequentially without exposing the underlying implementation of the aggregator.
+			
+			$ It also separates the task of the iteration from the aggregator, so that aggregator can focus on the its main functionalities.
+			
+			$ The benefit of having the iterator pattern is that we can write polymorphic code for multiple aggregators.
+			
+			$ While design we should focus that each class has single responsibility. As every responsibility of a class is an area of potential change. More than one responsibility means more than one area of change.
+			
+			$ Cohesion: It is a measure that shows how closely a class shows the principle of single responsibility.
+			
+		-> Composite Pattern: (Menu and MenuItem tree-structure example)
+			$ It allows to compose object in a tree structure to represent part-whole heirarchies. Composite let client treat individual objects and compositions of objects uniformly. This definitely voilates the single responsibility principle, but everything in computer science is trade off. These principles are not fixed rules, rather these are suggestions that we can follow or choose not to follow in different situations. Just that we should have a strong point for voilating them.
+			
+			$ Check for NullIterators, which are built on the principle of Null Pattern.
+			
+		-> State Pattern:
+			$ It's a sibling of strategy pattern. As we are going to see that this pattern also leverage the design principles followed by strategy pattern.
+			
+			$ Here we have a interface (state) with methods as the transition actions that can be performed on the machine. And for each state we will have a class (which is going to implement the state interface), methods of these state classes will behave accordingly and will update the state of the machine as well. Current state of the machine will be represented as an object so we are using composition as well ;).
+			
+			$ Definition: The State pattern allows an object to change behavior when its internal state changes. The object will appear to change its class (In reality we are using composition which creates this illusion).
+			
+			$ Think of State pattern as an alternative to putting lots of conditionals in your context, by encapsulating the behavior within the state object, you can change the state object in context to change its behavior.
+			
+			$ Check for question no 1, 3 (check for some eg for this questn) on page no 424. And also check page no 429. They're not completely clear to me now (03-Apr-2024).
+			
+			$ The structure of the State and Strategy patterns are same while their intents are completely different. In State context allows the object to change the behavior, while in Strategy every context a well suited object which usually doesn't change.
+			
+			$ By encapsulating each state into a class, we localize any changes that will need to be made.
+			
+			$ State transitions can be controlled by the State classes or by the Context classes.*
+			
+			$ State classes may be shared among Context instances.*
+			
+		-> Proxy pattern:
+			$ A proxy is a stand in for a real object.
+			
+			$ A remote proxy act as a local representative to a remote object. Remote object means an object which lives in a different space like in different JVM. And a local representative means an object that can call local methods and call forward those calls to the remote object.
+			
+			$ JAVA RMI: 
+				$ There are two meta objects: Client helper [STUB] (which do packing and unpacking at client side, and be a proxy of remote object for client), Server helper [SKELETON] (which do packing and unpacking at server side, and be a proxy of remote client for real object)
+			
+			$ Remote proxy is one type of implementation of the Proxy pattern, there are many more.
+			
+			$ Definition: The Proxy Pattern provides a surrogate or placeholder for another object to control access to it. (In variations the way proxy provides "access control" make them different)
+				-> A remote proxy controls access to a remote object. Here proxy acts as a local representative of the RealSubject for client and transfers the method invocation to, and the result returned back to client by the RealSubject over wire.
+				-> A virtual proxy controls access to a resource which is expensive to create. Here defers the creation of the RealSubject as long as possible and creates it only when needed, and here also it transfers the method invocation calls / results to and fro.
+				-> A protection proxy controls access to a resource based on access rights.
+		
+		-> *Delegate pattern:
+			$ It is a structural desing pattern. Its a fundamental / interensic pattern which is sometimes not explicitly listed.
+			
+			$ Core logic is that there are two objects, Delegating object which is the client facing API. Its work is to gather the command / request from client and identify and delegate it to the appropricate object.
+			
+			$ It is the actual object which performs the action and returns the result to the delegating object.
+			
+		-> Builder Pattern:
+			$ It is used for complex object creation (objects having lots of paramters some might be optional). 
+			
+			$ For objects having lots of paramters and if some of them are optional then their constructor becomes bulky and its difficult for client to remember the order and for optional parameters redundently null value has to be passed. Builder solves these problems and makes the code more readible.
+			
+			$ This is useful when we different construtors of same signature are required. E.g. while implementing the split for (amount, memeber) and (percentage, member) this problem came up.
+			
+			$ Check the concised nested static clss implementation also.
+			
+			$ Check the dictator implementation also. A director usually contains most common building steps, single director can be used for building altogether different types (object of different class) objects. To make this happens we can't get/fetch the created object from director as doing so will require to get couple with the built object.
+			
+		-> MVC Pattern:
+			$ It is a architectural design pattern. Model View Controller is the full form of MVC.
+			
+			$ Below are the component details:
+				@ Model : It contains the data related stuff like entities (POJOs) and DB connectivity part.
+				@ Controller : It contains the business logic of the application (services and other parts come under this).
+				@ View : It is the front-end.
+			
+			$ This pattern is majorly used for medium to large software component development as it is doing separation of concern but we need to maintain we component independently that's a overhead.
+		
+		-> MVT Pattern:
+			$ It is a architectural design pattern. Model View Template is the full form of MVT.
+			
+			$ It is a simpler version of MVC, here business logic is mainly written in model(M) and some validation part can be in view(V). Its components are:
+				@ Model : contains DB part and some business logic.
+				@ View : contains the dynamic part of the frontend, which can have some other logics like validation. 
+				@ Template :  contains the static part of the frontend like header, footer. Placeholder is left for the view(V) dynamic part here.
+			
+		-> Chain of responsibility Pattern: (Authentication, authorization and validation for a user example)
+			$ It is a behavioral pattern. It dictates the Single responsibility (SoR) and Open closed (O/C) principles.
+			
+			$ This pattern can be applied where a request needs to be traverse a chain of processes (or a likewise senario). Here each object (request processor) is a link which is capable of handling the request (completely or partially). If a link processes the request completely (or an end state is achieved), response is sent for that link only while skiping the further links of the chain.
+			
+			$ It allows to create the chain at runtime (some what similar to decorator, but decorator has different purpose it adds functionality to an object and in decorator's chain an in between link can't send response, complete chain has to be executed).
+			
+			$ It has a downside that some requests may end up unhandled.
+			
+		-> Visitor Pattern: (Different shape export to an xml file example)
+			$ It is a behavioral design pattern. It dictates the Single responsibility (SoR) and Open closed (O/C) principles.
+			
+			$ Double dispatch is used for its implementation.
+			
+			$ We use this pattern when want to perform operation on all elements of a complex object. It is used to perform an operation on different object without altering the objects code (useful in cases when operation is alien to the objects).
+			
+		-> Prototype Pattern:
+			$ It is a creational pattern which lets client create a copy of an object without creating depedency on the type of the object client wants to copy.
+			
+			$ It is useful when objects are received from the 3rd party and we want to create a copy of those objects. But the catch is that 3rd party needs to implement this pattern which let us to create copies.
+			
+			$ By having prototype inplace where base objects can be cloned easily, we can avoid subclassing for objects having several different configuration mode. 
+			
+			$ Check java's built-in support for this.
+			
+		-> Mediator/Controller Pattern:
+			$ It is a behavioral design pattern. It dictates SoR and loose coupling.
+			
+			$ It is used to reduce the direct interaction between different component of system which can become a mess sometimes. It encourages the centralized approach for communication b/w components. A mediator is there which is reponsible to receive singles from components and redirect them to appropriate components.
+			
+			$ It is very similar to the observer pattern and they can be used simultaneously in a system. Differene b/w them is that in observer dynamic subscription/unsubscription is possible however in mediator it is not.
+			
+		-> Memento Pattern:
+			$ It is a behavioral pattern.
+			
+			$ It solve the problem of tracking/resotring the state of an object while not voilating the encapsulation (data hiding) principle.
+			
+			
+			
+	+ public member
+	- private member
+	# protected member
+	underline static member
+			
+	+-----------------------------------------------+
+	| class name|
+	+-----------------------------------------------+
+	|Buy order|
+	||
+	||
+	||
+	||
+	||
+	||
+	||
+	||
+	+-----------------------------------------------+
+	
+	Machine coding round w/ java:
+		* Check how to write custom comparators
+		* Check basic collections and stream
+		* I/O from console (like scanner)
+		* How to get current timestamp
+		* Unit test
+		* Multi-threading part basic (how to start threads, how to communicate between different threads, and how to synchronize between multiple threads. good understanding of mutexes, semaphores, locks, deadlocks, and race conditions)
+		* Equals and hash method
+		* Common functions and constatns
+			Integer.MIN_VALUE
+			Integer.MAX_VALUE
+			Math.max()
+			Math.min()
+			ThreadLocalRandom.current.nextX() (here X can int, double, float etc) *{this is preferred over Math.randome() in multi-threaded environment as it is thread safe i.e. each thread gets its own generate which generates value independently}
+			
+	
+	IMP ques for machine coding round:
+		* Splitwise (Subhahu Jain)
+		* Ratelimiter
+		* Elevator (Subhahu Jain)
+		* Digiatl wallet design
+		* FLIPMED
+		* Messaging queue #
+		* Distributed cache #
+		# Hard/rare questions
