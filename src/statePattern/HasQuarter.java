@@ -2,10 +2,12 @@ package statePattern;
 
 public class HasQuarter implements State {
 
-    private GumBallMachine machine;
+    final private GumBallMachine gumBallMachine;
+    final private String stateName;
 
-    HasQuarter(GumBallMachine machine) {
-        this.machine = machine;
+    HasQuarter(GumBallMachine gumBallMachine) {
+        this.gumBallMachine = gumBallMachine;
+        this.stateName = "HasQuarter";
     }
 
     @Override
@@ -16,7 +18,7 @@ public class HasQuarter implements State {
     @Override
     public void ejectQuarter() {
         System.out.println("Quarter ejected");
-        //TODO: set to NoQuarter
+        gumBallMachine.setState(new NoQuarter(gumBallMachine));
     }
 
     @Override
@@ -27,5 +29,9 @@ public class HasQuarter implements State {
     @Override
     public void despense() {
         System.out.println("No gumball dispensed");
+    }
+
+    @Override public String getStateName() {
+        return this.stateName;
     }
 }

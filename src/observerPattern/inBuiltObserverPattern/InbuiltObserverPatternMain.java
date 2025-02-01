@@ -1,6 +1,6 @@
 package observerPattern.inBuiltObserverPattern;
 
-public class InbuiltObserverPaternMain {
+public class InbuiltObserverPatternMain {
     public static void run() {
         WeatherData weatherData = new WeatherData();
 

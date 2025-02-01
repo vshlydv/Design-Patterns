@@ -9,4 +9,6 @@ public interface State {
     public void turnCrank();
 
     public void despense();
+
+    public String getStateName();
 }

@@ -2,7 +2,7 @@ package chainOfResponsibility;
 
 import java.util.Scanner;
 
-public class ChainOfResponsibility {
+public class ChainOfResponsibilityMain {
     public static void run() {
         Server server = new Server();
         Scanner scanner = new Scanner(System.in);

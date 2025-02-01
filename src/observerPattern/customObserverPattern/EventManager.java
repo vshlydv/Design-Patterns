@@ -1,9 +1,6 @@
 package observerPattern.customObserverPattern;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EventManager implements Subject {
     Map<String, List<Observer>> eventVsObservers;
@@ -17,8 +14,7 @@ public class EventManager implements Subject {
 
     @Override
     public void registerObserver(Observer observer, String event) {
-        if (!eventVsObservers.containsKey(event))
-            eventVsObservers.put(event, new ArrayList<>());
+        eventVsObservers.computeIfAbsent(event, k -> new ArrayList<>());
         if (!eventVsObservers.get(event).contains(observer))
             eventVsObservers.get(event).add(observer);
         else
@@ -27,7 +23,15 @@ public class EventManager implements Subject {
 
     @Override
     public void removeObserver(Observer observer, String event) {
-
+        List<Observer> observers = eventVsObservers.get(event);
+        if (!Objects.isNull(observers)) {
+            if (observers.remove(observer))
+                System.out.println("observer removed successfully");
+            else
+                System.out.println("Give observer was not registered with event : " + event);
+        } else {
+            System.out.println("No such event : " + event);
+        }
     }
 
     @Override

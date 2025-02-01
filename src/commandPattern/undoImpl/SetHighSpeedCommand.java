@@ -10,5 +10,6 @@ public class SetHighSpeedCommand extends SetSpeedCommand {
     public void execute() {
         prevSpeed = ceilingFan.currSpeed;
         ceilingFan.setSpeedAtHigh();
+
     }
 }

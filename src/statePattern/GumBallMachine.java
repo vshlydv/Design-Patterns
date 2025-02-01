@@ -2,14 +2,11 @@ package statePattern;
 
 public class GumBallMachine {
     private State state;
-    private State noQuarterState;
-    private State hasQuarterState;
     int gumBallsCount = 0;
 
-    public GumBallMachine(int gumBallsCount) {
-        this.gumBallsCount = gumBallsCount;
-        noQuarterState = new NoQuarter(this);
-        hasQuarterState = new HasQuarter(this);
+    public GumBallMachine() {
+        this.gumBallsCount = 0;
+        this.state = new NoQuarter(this);
     }
 
     public void insetQuarter() {
