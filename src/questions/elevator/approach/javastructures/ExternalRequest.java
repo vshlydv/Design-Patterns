@@ -2,6 +2,7 @@ package questions.elevator.approach.javastructures;
 
 class ExternalRequest {
 
+
     private Direction directionToGo;
     private int sourceFloor;
 
